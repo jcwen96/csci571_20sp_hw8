@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navigation from './Navigation';
+import Body from './Body';
+import { ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGuardian: Boolean(localStorage.getItem("isGuardian")),
+      search: "",
+      freshSearchBar: false
+    }
+  }
+
+  handleSwitchChange = (isGuardian) => {
+    this.setState({ isGuardian });
+  }
+
+  handleSearchChange = (keyword) => {
+    console.log(`search keyword: [${keyword}] from ${this.state.isGuardian ? "The Guardian": "New York Times"}`);
+    this.setState({ search: keyword });
+  }
+
+  handleFreshSearchBar = (freshSearchBar) => {
+    this.setState({ freshSearchBar });
+  }
+
+  render() {
+    return (
+      <Router>
+        <Navigation freshSearchBar={this.state.freshSearchBar} isGuardian={this.state.isGuardian}
+          onSwitchChange={this.handleSwitchChange} onSearchChange={this.handleSearchChange} needFreshSearchBar={this.handleFreshSearchBar} />
+        <Body isGuardian={this.state.isGuardian} key={this.state.isGuardian.toString() + this.state.search} needFreshSearchBar={this.handleFreshSearchBar} />
+        <ToastContainer
+          position="top-center"
+          hideProgressBar
+          transition={Zoom} />
+      </Router>
+    );
+  }
+
 }
-
-export default App;

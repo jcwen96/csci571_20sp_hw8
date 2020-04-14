@@ -1,0 +1,40 @@
+p.clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.col-auto span.badge {
+    background-color: #636a70 !important;
+    color: white;
+}
+.col-auto span.world {
+    background-color: #6f4cf9 !important;
+    color: white;
+}
+.col-auto span.politics {
+    background-color: #3b897d !important;
+    color: white;
+}
+.col-auto span.business {
+    background-color: #3e8ee5 !important;
+    color: white;
+}
+.col-auto span.technology {
+    background-color: #c8d544 !important;
+    color: black;
+}
+.col-auto span.sports {
+    background-color: #f4b849 !important;
+    color: black;
+}
+.col-auto span.guardian {
+    background-color: #142540 !important;
+    color: white;
+}
+.col-auto span.nytimes {
+    background-color: #d8d8d8 !important;
+    color: black;
+}
+
