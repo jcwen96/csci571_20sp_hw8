@@ -1,6 +1,7 @@
 {
-  "name": "my-app",
+  "name": "hw8_csci571_frontend",
   "version": "0.1.0",
+  "description": "This is the frontend of homework8 of CSCI571 in USC",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

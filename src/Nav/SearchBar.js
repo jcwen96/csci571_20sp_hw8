@@ -26,6 +26,7 @@ class SearchBar extends React.Component {
 
   handleChange = (obj) => {
     this.props.onSearchChange(obj.value);
+    this.props.onChange();
     this.props.history.push(`/search?q=${encodeURIComponent(obj.value)}`);
   }
 
@@ -48,4 +49,5 @@ export default withRouter(SearchBar);
 
 SearchBar.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }

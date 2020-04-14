@@ -15,7 +15,7 @@ export default class article extends Component {
   componentDidMount() {
     this.props.needFreshSearchBar();
     let source = this.props.isGuardian ? "Guardian" : "NYTimes";
-    let url = `http://localhost:8080/article/${source}/${encodeURIComponent(this.props.id)}`;
+    let url = `https://csci571-20sp-hw8-backend-jcwen.azurewebsites.net/article/${source}/${encodeURIComponent(this.props.id)}`;
     console.log(`Front end make a call to back end [${url}]`);
     fetch(url).then(res => res.json()).then(myJSON => {
       this.setState({

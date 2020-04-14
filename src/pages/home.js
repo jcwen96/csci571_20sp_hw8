@@ -14,8 +14,8 @@ export default class home extends Component {
 
   componentDidMount() {
     let url = this.props.isGuardian ?
-      `http://localhost:8080/Guardian/${this.props.section}` :
-      `http://localhost:8080/NYTimes/${this.props.section}`;
+      `https://csci571-20sp-hw8-backend-jcwen.azurewebsites.net/Guardian/${this.props.section}` :
+      `https://csci571-20sp-hw8-backend-jcwen.azurewebsites.net/NYTimes/${this.props.section}`;
     console.log(`Front end make a call to back end [${url}]`);
     fetch(url).then(res => res.json()).then(myJSON => {
       this.setState({

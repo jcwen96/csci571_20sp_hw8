@@ -24,7 +24,7 @@ export default class search extends Component {
 
   getSearch = () => {
     let source = this.props.isGuardian ? "Guardian" : "NYTimes";
-    let url = `http://localhost:8080/search/${source}/${encodeURIComponent(this.props.q)}`;
+    let url = `https://csci571-20sp-hw8-backend-jcwen.azurewebsites.net/search/${source}/${encodeURIComponent(this.props.q)}`;
     console.log(`Front end make a call to back end [${url}], to search news with keyword [${this.props.q}] from ${source}`);
     fetch(url).then(res => res.json()).then(myJSON => {
       this.setState((state) => ({

@@ -19,24 +19,28 @@ export default class Navigation extends React.Component {
 
   handleChange = (checked) => {
     this.setState({ checked });
+    this.props.needFreshSearchBar();
     localStorage.setItem("isGuardian", checked);
     this.props.onSwitchChange(checked);
   }
 
   handleClick = (link) => {
     this.setState({ link });
+    this.props.needFreshSearchBar();
   }
 
   handleFavoriteClick = () => {
     this.props.needFreshSearchBar();
+    this.setState({ link: "favorites" });
   }
 
   render() {
     const links = ["", "World", "Politics", "Business", "Technology", "Sports"];
     return (
       <Navbar variant="dark" expand="lg" style={{ backgroundImage: 'linear-gradient(to right, #1c263b, #4d669d)' }}>
-        <SearchBar key={this.props.freshSearchBar + this.state.checked + this.state.link}
-          onSearchChange={this.props.onSearchChange} />
+        <SearchBar key={this.props.freshSearchBar.toString()}
+          onSearchChange={this.props.onSearchChange} 
+          onChange={() => this.setState({ link: "search" })}/>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -82,5 +86,6 @@ Navigation.propTypes = {
   isGuardian: PropTypes.bool.isRequired,
   freshSearchBar: PropTypes.bool.isRequired,
   onSwitchChange: PropTypes.func.isRequired,
-  onSearchChange: PropTypes.func.isRequired
+  onSearchChange: PropTypes.func.isRequired,
+  needFreshSearchBar: PropTypes.func.isRequired
 }
