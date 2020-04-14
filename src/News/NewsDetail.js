@@ -4,9 +4,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {
   FacebookShareButton, TwitterShareButton, EmailShareButton,
-  FacebookIcon, TwitterIcon, EmailIcon } from 'react-share';
+  FacebookIcon, TwitterIcon, EmailIcon
+} from 'react-share';
 import ReactTooltip from 'react-tooltip';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import commentBox from 'commentbox.io';
 import PropTypes from 'prop-types';
@@ -16,8 +18,12 @@ export default class NewsDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSaved : localStorage.getItem(this.props.article.id) != null
+      isSaved: localStorage.getItem(this.props.article.id) != null,
+      needMore: (this.props.article.Description.length > 700),
+      isCallpsed: true
     }
+    this.bottom = React.createRef();
+    this.top = React.createRef();
   }
 
   componentDidMount() {
@@ -37,7 +43,7 @@ export default class NewsDetail extends Component {
     localStorage.setItem(article.id, JSON.stringify(article));
     console.log(`Saved this article in local storage:`);
     console.log(article);
-    this.setState({ isSaved : true });
+    this.setState({ isSaved: true });
   }
 
   remove(article) {
@@ -45,7 +51,21 @@ export default class NewsDetail extends Component {
     localStorage.removeItem(article.id);
     console.log(`Removed this article in local storage:`);
     console.log(article);
-    this.setState({ isSaved : false });
+    this.setState({ isSaved: false });
+  }
+
+  handleReadmoreClick = () => {
+    this.setState({ isCallpsed : false });
+    this.scroll(this.bottom);
+  }
+
+  handleReadLessClick = () => {
+    this.setState({ isCallpsed : true });
+    this.scroll(this.top);
+  }
+
+  scroll(ref) {
+    ref.current.scrollIntoView({behavior: 'smooth'});
   }
 
   render() {
@@ -53,7 +73,7 @@ export default class NewsDetail extends Component {
     return (
       <Container fluid className="p-3">
         <Container fluid className="border rounded shadow p-3">
-          <h3 className="font-italic font-weight-normal">{article.Title}</h3>
+          <h3 ref={this.top} className="font-italic font-weight-normal">{article.Title}</h3>
           <Container fluid>
             <Row className="my-2">
               <Col xs={6} sm={9} lg={10} className="font-italic">{article.Date}</Col>
@@ -81,9 +101,20 @@ export default class NewsDetail extends Component {
           <div className="text-center">
             <img src={article.Image} className="img-fluid" alt={article.Title} />
           </div>
-          <p>{article.Description}</p>
+          {this.state.needMore ?
+            this.state.isCallpsed ?
+              <><p className="clamp">{article.Description}</p>
+                <div className="text-right">
+                  <span onClick={this.handleReadmoreClick}><FaChevronDown /></span>
+              </div></> :
+              <><p>{article.Description}</p>
+                <div className="text-right">
+                  <span onClick={this.handleReadLessClick}><FaChevronUp /></span>
+              </div></> :
+            <p>{article.Description}</p>
+          }
         </Container>
-        <div className="commentbox px-3 pt-5" id={article.id}/>
+        <div ref={this.bottom} className="commentbox px-3 pt-5" id={article.id} />
       </Container>
     )
   }

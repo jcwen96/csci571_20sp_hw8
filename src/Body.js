@@ -18,13 +18,15 @@ export default function Body(props) {
     <Suspense fallback={<Loader />}>
       <Switch>
         <Route path="/article">
-          <Article id={query.get("id")} isGuardian={props.isGuardian} needFreshSearchBar={props.needFreshSearchBar} />
+          <Article id={query.get("id")} isGuardian={props.isGuardian} 
+            needFreshSearchBar={props.needFreshSearchBar} />
         </Route>
         <Route path="/search">
           <Search key="search" q={query.get("q")} isSearch isGuardian={props.isGuardian} />
         </Route>
         <Route path="/favorites">
-          <Search key="favorates" isSearch={false} isGuardian={props.isGuardian} needFreshSearchBar={props.needFreshSearchBar} />
+          <Search key="favorates" isSearch={false} isGuardian={props.isGuardian} 
+            needFreshSearchBar={props.needFreshSearchBar} />
         </Route>
         <Route path="/:section">
           <Section isGuardian={props.isGuardian} />

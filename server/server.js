@@ -68,7 +68,7 @@ callNYTimesSearch = (keyword, res) => {
     console.log(`Server responds with json.`);
     console.log("");
   }, e => {
-    console.log(`Server fails to call search from The Guardian`);
+    console.log(`Server fails to call search from The NYTimes`);
     console.error(e);
   });
 }

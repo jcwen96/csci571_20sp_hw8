@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NewsDetail from '../News/NewsDetail';
 import Loader from '../Loader';
+import PropTypes from 'prop-types';
 
 export default class article extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class article extends Component {
   }
   
   componentDidMount() {
-    this.props.needFreshSearchBar(true);
+    this.props.needFreshSearchBar();
     let source = this.props.isGuardian ? "Guardian" : "NYTimes";
     let url = `http://localhost:8080/article/${source}/${encodeURIComponent(this.props.id)}`;
     console.log(`Front end make a call to back end [${url}]`);
@@ -21,7 +22,7 @@ export default class article extends Component {
         article: myJSON,
         isLoading: false
       });
-      this.props.needFreshSearchBar(false);
+      // this.props.needFreshSearchBar(false);
       console.log(`Receive JSON from back end, here is the article:`);
       console.log(this.state);
     }, (e) => {
@@ -37,4 +38,10 @@ export default class article extends Component {
     );
   }
 
+}
+
+article.propTypes = {
+  id: PropTypes.string.isRequired,
+  isGuardian: PropTypes.bool.isRequired,
+  needFreshSearchBar: PropTypes.func.isRequired
 }

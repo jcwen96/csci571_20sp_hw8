@@ -2,12 +2,13 @@ import React from 'react';
 import AsyncSelect from 'react-select/async';
 import { debounce } from 'debounce';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const callAutosuggest = async (inputValue) => {
   try {
     console.log(`Front end calls bing autosuggest with query: [${inputValue}]`);
     const response = await fetch(
-      `https://api.cognitive.microsoft.com/bing/v7.0/suggestions?mkt=fr-FR&q=${inputValue}`,
+      `https://api.cognitive.microsoft.com/bing/v7.0/suggestions?mkt=fr-FR&q=${encodeURIComponent(inputValue)}`,
       { headers: { 'Ocp-Apim-Subscription-Key': '2a28a91fb63e4252b0a7ecfba00c7656' } });
     const data = await response.json();
     const resultsRaw = data.suggestionGroups[0].searchSuggestions;
@@ -25,7 +26,7 @@ class SearchBar extends React.Component {
 
   handleChange = (obj) => {
     this.props.onSearchChange(obj.value);
-    this.props.history.push(`/search?q=${obj.value}`);
+    this.props.history.push(`/search?q=${encodeURIComponent(obj.value)}`);
   }
 
   render() {
@@ -44,3 +45,7 @@ class SearchBar extends React.Component {
 }
 
 export default withRouter(SearchBar);
+
+SearchBar.propTypes = {
+  onSearchChange: PropTypes.func.isRequired,
+}

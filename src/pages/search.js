@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NewsCard from '../News/NewsCard';
 import Loader from '../Loader';
+import PropTypes from 'prop-types';
 
 export default class search extends Component {
 
@@ -17,13 +18,13 @@ export default class search extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.isSearch) this.props.needFreshSearchBar(true);
+    if (!this.props.isSearch) this.props.needFreshSearchBar();
     this.props.isSearch ? this.getSearch() : this.getFavorites();
   }
 
   getSearch = () => {
     let source = this.props.isGuardian ? "Guardian" : "NYTimes";
-    let url = `http://localhost:8080/search/${source}/${this.props.q}`;
+    let url = `http://localhost:8080/search/${source}/${encodeURIComponent(this.props.q)}`;
     console.log(`Front end make a call to back end [${url}], to search news with keyword [${this.props.q}] from ${source}`);
     fetch(url).then(res => res.json()).then(myJSON => {
       this.setState((state) => ({
@@ -38,7 +39,7 @@ export default class search extends Component {
   }
 
   getFavorites = () => {
-    this.props.needFreshSearchBar(false);
+    this.props.needFreshSearchBar();
     let savedCards = [];
     for (let itemKey in localStorage) {
       let item = JSON.parse(localStorage.getItem(itemKey));
@@ -55,6 +56,9 @@ export default class search extends Component {
 
   render() {
     if (this.state.isLoading) return (<Loader />);
+    if (this.state.cards.length === 0 && !this.props.isSearch) return (
+      <h3 className="font-weight-normal mt-3 text-center">You have no saved articles</h3>
+    );
     return (
       <Container fluid className="px-4">
         <Switch>
@@ -73,4 +77,11 @@ export default class search extends Component {
     );
   }
 
+}
+
+search.propTypes = {
+  isGuardian: PropTypes.bool.isRequired,
+  isSearch: PropTypes.bool.isRequired,
+  needFreshSearchBar: PropTypes.func,
+  q: PropTypes.string
 }

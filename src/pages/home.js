@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NewsBand from '../News/NewsBand';
 import Loader from '../Loader';
+import PropTypes from 'prop-types';
 
 export default class home extends Component {
   constructor(props) {
@@ -23,7 +24,6 @@ export default class home extends Component {
       });
       console.log(`Receive JSON from back end.`);
       console.log(this.state);
-      console.log("");
     }, (e) => {
       console.error(e);
     });
@@ -39,4 +39,9 @@ export default class home extends Component {
       </>
     );
   }
+}
+
+home.propTyeps = {
+  isGuardian: PropTypes.bool.isRequired,
+  section: PropTypes.string.isRequired
 }

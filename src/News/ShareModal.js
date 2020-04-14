@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IoMdShare } from 'react-icons/io';
-import { FaChevronDown,  FaChevronUp } from "react-icons/fa";
 import Modal from 'react-bootstrap/Modal';
 import {
   FacebookShareButton, TwitterShareButton, EmailShareButton,

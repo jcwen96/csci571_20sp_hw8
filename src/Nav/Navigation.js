@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip';
 import Switch from "react-switch";
+import PropTypes from 'prop-types';
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -26,24 +27,30 @@ export default class Navigation extends React.Component {
     this.setState({ link });
   }
 
+  handleFavoriteClick = () => {
+    this.props.needFreshSearchBar();
+  }
+
   render() {
     const links = ["", "World", "Politics", "Business", "Technology", "Sports"];
     return (
       <Navbar variant="dark" expand="lg" style={{ backgroundImage: 'linear-gradient(to right, #1c263b, #4d669d)' }}>
-        <SearchBar key={this.props.needFreshSearchBar + this.state.checked + this.state.link} onSearchChange={this.props.onSearchChange} />
+        <SearchBar key={this.props.freshSearchBar + this.state.checked + this.state.link}
+          onSearchChange={this.props.onSearchChange} />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {links.map((link) => (
               <div key={link} onClick={() => this.handleClick(link)}>
-                <Nav.Link className={this.state.link === link ? "active" : ""} value={link} as={Link} to={`/${link}`}>
+                <Nav.Link className={this.state.link === link ? "active" : ""} value={link} 
+                  as={Link} to={`/${link}`}>
                   {(link !== "" ? link : "Home")}
                 </Nav.Link>
               </div>
             ))}
           </Nav>
           <Nav><Navbar.Brand as={Link} to="/favorites" data-tip="Bookmark">
-            <div onClick={() => this.handleClick("favorite")}>
+            <div onClick={this.handleFavoriteClick}>
               <RouterSwitch>
                 <Route path="/favorites"><FaBookmark /></Route>
                 <Route path="/"><FaRegBookmark /></Route>
@@ -69,4 +76,11 @@ export default class Navigation extends React.Component {
       </Navbar>
     )
   }
+}
+
+Navigation.propTypes = {
+  isGuardian: PropTypes.bool.isRequired,
+  freshSearchBar: PropTypes.bool.isRequired,
+  onSwitchChange: PropTypes.func.isRequired,
+  onSearchChange: PropTypes.func.isRequired
 }

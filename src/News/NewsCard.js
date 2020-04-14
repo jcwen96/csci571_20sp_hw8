@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 class NewsCard extends React.Component {
 
   handleCardClick = () => {
-    this.props.history.push(`/article?id=${this.props.card.id}`);
+    this.props.history.push(`/article?id=${encodeURIComponent(this.props.card.id)}`);
   }
 
   handleShareClick = (e) => {
