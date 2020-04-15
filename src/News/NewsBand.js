@@ -30,7 +30,7 @@ class NewsBand extends React.Component {
               <Col>
                 <h5 className="font-italic font-weight-bold">{band.Title}
                   <span onClick={this.handleShareClick}>
-                    <ShareModal title={band.Title} url={band.URL} />
+                    <ShareModal title={band.Title} url={band.URL} source="" />
                   </span>
                 </h5>
                 <p className="clamp">{band.Description}</p>

@@ -35,12 +35,13 @@ class NewsCard extends React.Component {
 
   render() {
     let card = this.props.card;
+    let source = this.computeSource(new URL(card.URL));
     return (
       <div onClick={this.handleCardClick} style={{ cursor: "pointer" }}>
         <Container fluid className="border rounded shadow px-3 py-4">
           <h6 className="font-italic font-weight-bold mb-3">{card.Title}
             <span className="ml-2" onClick={this.handleShareClick}>
-              <ShareModal title={card.Title} url={card.URL} />
+              <ShareModal title={card.Title} url={card.URL} source={source} />
               <Route path="/favorites"><MdDelete onClick={this.handleDelete} /></Route>
             </span>
           </h6>
@@ -50,7 +51,7 @@ class NewsCard extends React.Component {
             <Col xs="auto">
               <Badge className={card.Section}>{card.Section.toUpperCase()}</Badge>
               {window.location.pathname==="/favorites" ?
-                <Badge className={`${this.computeSource(new URL(card.URL))} ml-2`}>{this.computeSource(new URL(card.URL)).toUpperCase()}</Badge> : ""}
+                <Badge className={`${source} ml-2`}>{source.toUpperCase()}</Badge> : ""}
             </Col>
           </Row>
         </Container>

@@ -7,6 +7,7 @@ import {
 } from 'react-share';
 
 import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
 
 export default function ShareModal(props) {
   const [show, setShow] = useState(false);
@@ -19,7 +20,15 @@ export default function ShareModal(props) {
       <IoMdShare onClick={handleShow} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.title}</Modal.Title>
+          <Modal.Title>
+            <Switch>
+              <Route path="/favorites">
+                <div className="font-weight-bold">{props.source.toUpperCase()}</div>
+                <div className="font-weight-normal" style={{ lineHeight: "normal" }}>{props.title}</div>
+              </Route>
+              <Route path="/">{props.title}</Route>
+            </Switch>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <h5 className="text-center">Share via</h5>
@@ -43,4 +52,5 @@ export default function ShareModal(props) {
 ShareModal.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  source: PropTypes.string
 }
