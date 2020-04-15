@@ -19,12 +19,16 @@ export default class search extends Component {
 
   componentDidMount() {
     if (!this.props.isSearch) this.props.needFreshSearchBar();
-    this.props.isSearch ? this.getSearch() : this.getFavorites();
+    try {
+      this.props.isSearch ? this.getSearch() : this.getFavorites();
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   getSearch = () => {
     let source = this.props.isGuardian ? "Guardian" : "NYTimes";
-    let url = `https://csci571-20sp-hw8-backend-jcwen.azurewebsites.net/search/${source}/${encodeURIComponent(this.props.q)}`;
+    let url = `https://csci571-20sp-hw8-front-jcwen.appspot.com/search/${source}/${encodeURIComponent(this.props.q)}`;
     console.log(`Front end make a call to back end [${url}], to search news with keyword [${this.props.q}] from ${source}`);
     fetch(url).then(res => res.json()).then(myJSON => {
       this.setState((state) => ({
@@ -42,9 +46,9 @@ export default class search extends Component {
     this.props.needFreshSearchBar();
     let savedCards = [];
     for (let itemKey in localStorage) {
-      let item = JSON.parse(localStorage.getItem(itemKey));
-      if (item == null) continue;
-      if (typeof (item) === "object") savedCards.push(item);
+      let item = this.filterLocalStorage(localStorage.getItem(itemKey));
+      if(item === "pass" || item === undefined || item === null) continue;
+      if(typeof(item) === "object") savedCards.push(item);
     }
     console.log("Front end get saved news cards from local storage:");
     console.log(savedCards);
@@ -52,6 +56,16 @@ export default class search extends Component {
       cards: savedCards,
       isLoading: false
     })
+  }
+
+  filterLocalStorage(item) {
+    try {
+      let i = JSON.parse(item);
+      if (i.id && i.URL && i.Title && i.Image && i.Section && i.Date && i.Description)
+        return i;
+    } catch(e) {
+      return "pass";
+    }
   }
 
   render() {

@@ -23,6 +23,8 @@ class NewsCard extends React.Component {
   handleDelete = () => {
     toast(() => <div className="text-body">{`Removing - ${this.props.card.Title}`}</div>);
     localStorage.removeItem(this.props.card.id);
+    console.log(`Removed this article in local storage:`);
+    console.log(this.props.card);
     this.props.onDelete();
   }
 

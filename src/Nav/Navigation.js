@@ -4,9 +4,9 @@ import Nav from 'react-bootstrap/Nav';
 import { Switch as RouterSwitch, Route, Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
-import ReactTooltip from 'react-tooltip';
 import Switch from "react-switch";
 import PropTypes from 'prop-types';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -39,29 +39,31 @@ export default class Navigation extends React.Component {
     return (
       <Navbar variant="dark" expand="lg" style={{ backgroundImage: 'linear-gradient(to right, #1c263b, #4d669d)' }}>
         <SearchBar key={this.props.freshSearchBar.toString()}
-          onSearchChange={this.props.onSearchChange} 
-          onChange={() => this.setState({ link: "search" })}/>
+          onSearchChange={this.props.onSearchChange}
+          onChange={() => this.setState({ link: "search" })} />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {links.map((link) => (
               <div key={link} onClick={() => this.handleClick(link)}>
-                <Nav.Link className={this.state.link === link ? "active" : ""} value={link} 
+                <Nav.Link className={this.state.link === link ? "active" : ""} value={link}
                   as={Link} to={`/${link}`}>
                   {(link !== "" ? link : "Home")}
                 </Nav.Link>
               </div>
             ))}
           </Nav>
-          <Nav><Navbar.Brand as={Link} to="/favorites" data-tip="Bookmark">
-            <div onClick={this.handleFavoriteClick}>
-              <RouterSwitch>
-                <Route path="/favorites"><FaBookmark /></Route>
-                <Route path="/"><FaRegBookmark /></Route>
-              </RouterSwitch>
-            </div>
+          <Nav><Navbar.Brand as={Link} to="/favorites">
+            <OverlayTrigger placement={"bottom"} overlay={
+              <Tooltip>Bookmark</Tooltip>}>
+              <div onClick={this.handleFavoriteClick}>
+                <RouterSwitch>
+                  <Route path="/favorites"><FaBookmark /></Route>
+                  <Route path="/"><FaRegBookmark /></Route>
+                </RouterSwitch>
+              </div>
+            </OverlayTrigger>
           </Navbar.Brand></Nav>
-          <ReactTooltip effect="solid" place="bottom" />
           <RouterSwitch>
             <Route path="/article" />
             <Route path="/search" />
